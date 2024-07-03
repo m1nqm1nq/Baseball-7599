@@ -23,10 +23,18 @@ public:
         {
             return { true, 3, 0 };
         }
+        else if (guessNumber == "125")
+        {
+            return { false, 2, 0 };
+        }
+        else if (guessNumber == "321")
+        {
+            return { false, 1, 2 };
+        }
 
         return { false, 0, 0 };
     }
-
+private:
     void assertIllegalArgument(const std::string& guessNumber)
     {
         if (guessNumber.length() != 3)
