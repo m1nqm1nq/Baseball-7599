@@ -18,21 +18,22 @@ public:
         : question{ question } {}
     GuessResult guess (const string& guessNumber)
     {
+        GuessResult result = { false, 0, 0 };
         assertIllegalArgument(guessNumber);
-        if (guessNumber == question)
-        {
-            return { true, 3, 0 };
-        }
-        else if (guessNumber == "125")
-        {
-            return { false, 2, 0 };
-        }
-        else if (guessNumber == "321")
-        {
-            return { false, 1, 2 };
-        }
+        if (guessNumber[0] == question[0]) result.strikes++;
+        else if ((guessNumber[0] == question[1]) ||
+                 (guessNumber[0] == question[2])) result.balls++;
 
-        return { false, 0, 0 };
+        if (guessNumber[1] == question[1]) result.strikes++;
+        else if ((guessNumber[1] == question[0]) ||
+            (guessNumber[1] == question[2])) result.balls++;
+
+        if (guessNumber[2] == question[2]) result.strikes++;
+        else if ((guessNumber[2] == question[0]) ||
+            (guessNumber[2] == question[1])) result.balls++;
+
+        if (result.strikes == 3) result.solved = true;
+        return result;
     }
 private:
     void assertIllegalArgument(const std::string& guessNumber)
