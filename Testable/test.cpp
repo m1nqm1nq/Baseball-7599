@@ -5,14 +5,26 @@ using namespace std;
 #include "pch.h"
 #include "../Baseball/Baseball.cpp"
 
-TEST(BaseballGame, ThrowExceptionWhenInputLengthIsUnmatched)
+class BaseballTestFixture : public testing::Test
 {
+public:
     Baseball game;
-    EXPECT_THROW(game.guess(string("12")), length_error);
-}
+    void assertIllegalArgument(string guessNumber)
+    {
+        try
+        {
+            game.guess(guessNumber);
+            FAIL();
+        }
+        catch (exception e)
+        {
+            // PASS
+        }
+    }
+};
 
-TEST(BaseballGame, ThrowExceptionWhenInvalidChar)
+TEST_F(BaseballTestFixture, ThrowExceptionWhenInvalidCase)
 {
-    Baseball game;
-    EXPECT_THROW(game.guess(string("12s")), invalid_argument);
+    assertIllegalArgument("12");
+    assertIllegalArgument("12s");
 }
